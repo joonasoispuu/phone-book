@@ -29,6 +29,7 @@ Route::resource('contacts', ContactController::class)
 
 Route::resource('groups', GroupController::class)
     ->middleware(['auth', 'verified']);
+    
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -21,4 +21,9 @@ class Contact extends Model
     {
         return $this->belongsTo(Group::class);
     }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class);
+    }
 }

@@ -9,15 +9,23 @@ use Illuminate\View\View;
 
 class ContactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index() : View
+    public function index(Request $request) : View
     {
+        $search = $request->input('search');
+    
+        $contacts = Contact::with('user')
+            ->where('name', 'LIKE', "%$search%")
+            ->orWhere('phonenumber', 'LIKE', "%$search%")
+            ->orWhere('ContactType', 'LIKE', "%$search%")
+            ->latest()
+            ->get();
+    
         return view('contacts.index', [
-            'contacts' => Contact::with('user')->latest()->get(),
+            'contacts' => $contacts,
+            'search' => $search,
         ]);
     }
+    
 
     /**
      * Show the form for creating a new resource.

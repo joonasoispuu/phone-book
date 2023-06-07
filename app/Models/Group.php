@@ -19,4 +19,9 @@ class Group extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function contacts()
+    {
+        return $this->belongsToMany(Contact::class);
+    }
 }

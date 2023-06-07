@@ -11,7 +11,8 @@ class GroupController extends Controller
     public function index()
     {
         $contacts = Contact::all();
-        return view('groups.index', compact('contacts'));
+        $groups = Group::with('contacts')->get();
+        return view('groups.index', compact('groups',"contacts"));
     }
 
     public function store(Request $request)
