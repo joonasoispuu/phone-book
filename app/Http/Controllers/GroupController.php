@@ -2,64 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Group;
 use Illuminate\Http\Request;
+use App\Models\Group;
+use App\Models\Contact;
 
 class GroupController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $contacts = Contact::all();
+        return view('groups.index', compact('contacts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-    }
+        $validatedData = $request->validate([
+            'Groups_Title' => 'required|string|max:255',
+            'Groups_Desc' => 'nullable|string',
+            'contacts' => 'nullable|array',
+            'contacts.*' => 'exists:contacts,id',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Group $group)
-    {
-        //
-    }
+        $group = new Group();
+        $group->Groups_Title = $validatedData['Groups_Title'];
+        $group->Groups_Desc = $validatedData['Groups_Desc'];
+        $group->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Group $group)
-    {
-        //
-    }
+        if (isset($validatedData['contacts'])) {
+            $group->contacts()->attach($validatedData['contacts']);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Group $group)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Group $group)
-    {
-        //
+        return redirect()->route('groups.index')->with('success', 'Group created successfully.');
     }
 }

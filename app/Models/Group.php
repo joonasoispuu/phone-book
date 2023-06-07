@@ -11,18 +11,12 @@ class Group extends Model
     use HasFactory;
 
     protected $fillable = [
-        "groups_time",
+        "Groups_Title",
+        "Groups_Desc",
     ];
 
-    public function contact() : HasOne{
-        return $this->hasOne(Contact::class);
-    }
-
-    public function client() : HasOne{
-        return $this->hasOne(User::class);
-    }
-
-    public function server() : HasOne{
-        return $this->hasOne(User::class);
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 }

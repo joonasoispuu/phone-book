@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\GroupController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('contacts', ContactController::class)
+    ->middleware(['auth', 'verified']);
+
+Route::resource('groups', GroupController::class)
     ->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {

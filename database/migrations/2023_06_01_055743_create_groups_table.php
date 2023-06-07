@@ -4,33 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateGroupsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->datetime("groups_time");
-            $table->string("groups_Title");
-            $table->string("groups_Desc");
-            $table->unsignedBigInteger("contact_id")
-                  ->references("id")
-                  ->on("contacts");
-            $table->unsignedBigInteger("server_id")
-                ->references("id")
-                ->on("users");
+            $table->string('Groups_Title');
+            $table->text('Groups_Desc')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('groups');
     }
-};
+}
